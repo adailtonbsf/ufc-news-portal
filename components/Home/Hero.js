@@ -4,18 +4,23 @@ import styles from './Hero.module.css';
 const Hero = () => {
   return (
     <section className={styles.hero}>
-      <div className={styles.overlay}></div>
-      <div className={`container ${styles.content}`}>
+      {/* Background Image - Placeholder from Unsplash */}
+      <img
+        src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=80"
+        alt="Campus da Universidade"
+        className={styles.image}
+      />
+
+      <div className={styles.overlay} />
+
+      <div className={styles.heroContent}>
         <span className={styles.badge}>Destaque da Semana</span>
-        <h1 className={styles.title}>
-          UFC Expandindo Fronteiras: Novos Campi Confirmados
-        </h1>
-        <p className={styles.description}>
-          O Conselho Universitário aprovou a criação de dois novos campi no interior, 
-          ampliando o acesso ao ensino superior de qualidade para mais de 5 mil estudantes.
+        <h1 className={styles.title}>Universidade Inaugura Novo Centro de Inovação</h1>
+        <p className={styles.subtitle}>
+          Espaço colaborativo visa integrar alunos, professores e empresas para o desenvolvimento de soluções tecnológicas.
         </p>
-        <Link href="/noticias/destaque-campi" className={styles.ctaButton}>
-          Leia a Matéria Completa →
+        <Link href="/noticias/destaque" className={styles.ctaButton}>
+          Leia a Matéria Completa
         </Link>
       </div>
     </section>

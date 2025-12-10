@@ -1,14 +1,21 @@
 .hero {
   position: relative;
-  height: 60vh;
-  min-height: 400px;
   width: 100%;
-  display: flex;
-  align-items: center;
-  margin-bottom: 3rem;
+  height: 500px; /* Adjust height as needed */
+  border-radius: 20px;
   overflow: hidden;
-  border-radius: 0 0 32px 32px;
-  background: url('https://images.unsplash.com/photo-1592280771190-3e2e4d571952?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+  margin-top: 2rem;
+  display: flex;
+  align-items: flex-end;
+  color: white;
+}
+
+.heroContent {
+  position: relative; /* Above the overlay */
+  z-index: 2;
+  padding: 3rem;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
 }
 
 .overlay {
@@ -17,70 +24,63 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(37, 99, 235, 0.6) 100%);
+  background-color: rgba(37, 99, 235, 0.2); /* Tint of primary blue */
+  z-index: 1;
 }
 
-.content {
-  position: relative;
-  z-index: 2;
-  color: white;
-  max-width: 800px;
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
 
 .badge {
-  display: inline-block;
-  background: var(--solar-gold);
+  background-color: var(--solar-gold);
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 50px;
-  font-weight: 700;
-  font-size: 0.85rem;
-  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-block;
   margin-bottom: 1rem;
+  text-transform: uppercase;
 }
 
 .title {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 800;
   line-height: 1.1;
-  margin-bottom: 1.5rem;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  max-width: 800px;
 }
 
-.description {
-  font-size: 1.25rem;
-  line-height: 1.6;
+.subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  max-width: 600px;
   margin-bottom: 2rem;
-  color: rgba(255, 255, 255, 0.9);
 }
 
 .ctaButton {
-  display: inline-flex;
-  align-items: center;
-  background: white;
-  color: var(--primary-blue);
+  background-color: var(--primary-blue);
+  color: white;
   padding: 1rem 2rem;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 1.1rem;
-  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 12px;
   border: none;
+  font-weight: 600;
+  font-size: 1.1rem;
   cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-block;
 }
 
 .ctaButton:hover {
+  background-color: var(--primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-@media (max-width: 768px) {
-  .hero {
-    height: auto;
-    padding: 4rem 1rem;
-    border-radius: 0 0 24px 24px;
-  }
-  
-  .title {
-    font-size: 2.25rem;
-  }
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
 }
