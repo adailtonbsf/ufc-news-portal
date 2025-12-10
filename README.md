@@ -7,6 +7,9 @@ Um portal digital dinâmico para conectar a comunidade acadêmica da UFC (alunos
 - **Estilização**: CSS Modules + Glassmorphism (Design System próprio)
 - **Banco de Dados**: MongoDB (Mongoose)
 
+## 🌐 Acesso Online (Demo)
+Acesse a versão mais recente em: **[ufc-news-portal.vercel.app](https://ufc-news-portal.vercel.app)**
+
 ## Como Rodar Localmente
 
 1. Clone o repositório.
