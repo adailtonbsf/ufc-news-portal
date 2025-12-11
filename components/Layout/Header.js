@@ -80,6 +80,17 @@ const Header = () => {
         router.refresh();
     };
 
+    const [searchQuery, setSearchQuery] = useState('');
+    const [showSearch, setShowSearch] = useState(false);
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            router.push(`/busca?q=${encodeURIComponent(searchQuery)}`);
+            setShowSearch(false);
+        }
+    };
+
     return (
         <header className={styles.header}>
             <div className={styles.container}>
@@ -96,7 +107,28 @@ const Header = () => {
                 </nav>
 
                 <div className={styles.actions}>
-                    <button className={styles.iconButton}>🔍</button>
+                    {showSearch ? (
+                        <form onSubmit={handleSearch} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                            <input
+                                autoFocus
+                                type="text"
+                                placeholder="Buscar..."
+                                className={styles.loginInput}
+                                style={{ width: '150px', padding: '0.4rem' }}
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onBlur={() => !searchQuery && setShowSearch(false)}
+                            />
+                        </form>
+                    ) : (
+                        <button
+                            className={styles.iconButton}
+                            onClick={() => setShowSearch(true)}
+                            title="Pesquisar"
+                        >
+                            🔍
+                        </button>
+                    )}
 
                     <div className={styles.profileContainer} ref={dropdownRef}>
                         <button
