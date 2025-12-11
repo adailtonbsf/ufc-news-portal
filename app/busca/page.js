@@ -1,11 +1,11 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import NewsCard from '@/components/Shared/NewsCard';
 import styles from '../page.module.css'; // Reusing home styles
 
-export default function SearchPage() {
+function SearchContent() {
     const searchParams = useSearchParams();
     const query = searchParams.get('q');
     const [results, setResults] = useState([]);
@@ -18,14 +18,19 @@ export default function SearchPage() {
                 const res = await fetch('/api/news'); // Fetch all for now and filter client-side for simple prototype
                 const data = await res.json();
 
-                // Simple case-insensitive filtering
-                const filtered = data.filter(news =>
-                    news.title.toLowerCase().includes(query.toLowerCase()) ||
-                    news.content.toLowerCase().includes(query.toLowerCase()) ||
-                    news.category.toLowerCase().includes(query.toLowerCase())
-                );
+                if (query) {
+                    // Simple case-insensitive filtering
+                    const lowerQuery = query.toLowerCase();
+                    const filtered = data.filter(news =>
+                        news.title.toLowerCase().includes(lowerQuery) ||
+                        news.content.toLowerCase().includes(lowerQuery) ||
+                        news.category.toLowerCase().includes(lowerQuery)
+                    );
+                    setResults(filtered);
+                } else {
+                    setResults([]);
+                }
 
-                setResults(filtered);
             } catch (error) {
                 console.error('Search failed');
             } finally {
@@ -33,11 +38,15 @@ export default function SearchPage() {
             }
         };
 
-        if (query) fetchResults();
+        if (query) {
+            fetchResults();
+        } else {
+            setLoading(false);
+        }
     }, [query]);
 
     return (
-        <main className={styles.main}>
+        <>
             <h1 style={{ margin: '2rem 1rem', fontSize: '1.8rem', color: 'var(--primary-blue)' }}>
                 Resultados para: "{query}"
             </h1>
@@ -53,6 +62,16 @@ export default function SearchPage() {
             ) : (
                 <p style={{ margin: '1rem', color: '#666' }}>Nenhuma notícia encontrada.</p>
             )}
+        </>
+    );
+}
+
+export default function SearchPage() {
+    return (
+        <main className={styles.main}>
+            <Suspense fallback={<p style={{ margin: '2rem' }}>Carregando busca...</p>}>
+                <SearchContent />
+            </Suspense>
         </main>
     );
 }
