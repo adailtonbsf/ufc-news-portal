@@ -1,42 +1,46 @@
+/* Existing styles... */
 .header {
   position: sticky;
   top: 0;
-  z-index: 100;
-  width: 100%;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: var(--font-outfit);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--primary-blue);
+  text-decoration: none;
+  letter-spacing: -0.5px;
 }
 
 .nav {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 70px;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--primary-blue);
-  letter-spacing: -0.5px;
-}
-
-.logo span {
-  color: var(--solar-gold);
-}
-
-.links {
-  display: flex;
   gap: 2rem;
-  list-style: none;
 }
 
-.link {
-  font-weight: 500;
+.nav a {
+  text-decoration: none;
   color: var(--dark-text);
+  font-weight: 500;
   transition: color 0.2s;
   font-size: 0.95rem;
 }
 
-.link:hover {
+.nav a:hover {
   color: var(--primary-blue);
 }
 
@@ -46,28 +50,142 @@
   gap: 1rem;
 }
 
-.searchBtn {
+.iconButton {
   background: none;
   border: none;
+  font-size: 1.2rem;
   cursor: pointer;
   padding: 0.5rem;
+  border-radius: 50%;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconButton:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.profileContainer {
+  position: relative;
 }
 
 .avatar {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary-blue), var(--solar-gold));
+  background-color: #e5e7eb;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-weight: bold;
+}
+
+.avatar:hover {
+  border-color: var(--primary-blue);
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  background-image: url('https://api.dicebear.com/7.x/avataaars/svg?seed=Felix');
+  background-size: cover;
+}
+
+.statusDot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #10b981;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  width: 280px; /* Wider for login form */
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdownItem {
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: var(--dark-text);
+  font-size: 0.9rem;
+  border-radius: 8px;
+  transition: background 0.2s;
+  text-align: left;
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  background: #f3f4f6;
+  color: var(--primary-blue);
+}
+
+.divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 0.5rem 0;
+}
+
+/* Login Form inside Dropdown */
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.loginInput {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
   font-size: 0.9rem;
 }
 
+.loginButton {
+  background: var(--primary-blue);
+  color: white;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.loginButton:hover {
+  opacity: 0.9;
+}
+
+.errorMsg {
+  color: #dc2626;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
-  .links {
-    display: none; /* Mobile menu to be implemented later */
+  .nav {
+    display: none;
   }
 }
