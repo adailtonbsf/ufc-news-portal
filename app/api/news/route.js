@@ -12,6 +12,28 @@ export async function GET() {
     }
 }
 
+export async function POST(request) {
+    await dbConnect();
+    try {
+        const body = await request.json();
+
+        // Basic validation
+        if (!body.title || !body.content) {
+            return NextResponse.json({ error: 'Title and content required' }, { status: 400 });
+        }
+
+        const news = await News.create({
+            ...body,
+            likes: 0,
+            publishDate: new Date(),
+        });
+
+        return NextResponse.json(news, { status: 201 });
+    } catch (error) {
+        return NextResponse.json({ error: 'Failed to create news' }, { status: 500 });
+    }
+}
+
 export async function DELETE(request) {
     await dbConnect();
     const { searchParams } = new URL(request.url);

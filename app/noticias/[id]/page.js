@@ -48,7 +48,7 @@ export default async function NewsDetails({ params }) {
 
                     <img src={news.imageUrl} alt={news.title} className={styles.coverImage} />
 
-                    <InteractionBar likes={news.likes} comments={12} />
+                    <InteractionBar newsId={news._id} initialLikes={news.likes} comments={12} />
 
                     <div className={styles.body}>
                         {/* Simple paragraph splitting for Sprint 1 */}
