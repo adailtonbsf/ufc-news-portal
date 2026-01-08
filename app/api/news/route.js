@@ -2,9 +2,17 @@ import dbConnect from '@/lib/mongodb';
 import News from '@/models/News';
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(request) {
     await dbConnect();
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
     try {
+        if (id) {
+            const news = await News.findById(id);
+            if (!news) return NextResponse.json({ error: 'News not found' }, { status: 404 });
+            return NextResponse.json(news);
+        }
         const news = await News.find({}).sort({ publishDate: -1 });
         return NextResponse.json(news);
     } catch (error) {
@@ -48,5 +56,27 @@ export async function DELETE(request) {
         return NextResponse.json({ message: 'News deleted' });
     } catch (error) {
         return NextResponse.json({ error: 'Failed to delete news' }, { status: 500 });
+    }
+}
+
+export async function PUT(request) {
+    await dbConnect();
+    try {
+        const body = await request.json();
+        const { id, ...updateData } = body;
+
+        if (!id) {
+            return NextResponse.json({ error: 'ID required' }, { status: 400 });
+        }
+
+        const news = await News.findByIdAndUpdate(id, updateData, { new: true });
+
+        if (!news) {
+            return NextResponse.json({ error: 'News not found' }, { status: 404 });
+        }
+
+        return NextResponse.json(news);
+    } catch (error) {
+        return NextResponse.json({ error: 'Failed to update news' }, { status: 500 });
     }
 }

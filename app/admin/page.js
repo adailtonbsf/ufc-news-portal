@@ -57,12 +57,20 @@ export default function AdminDashboard() {
                                 <td>{new Date(news.publishDate).toLocaleDateString('pt-BR')}</td>
                                 <td>{news.author}</td>
                                 <td>
-                                    <button
-                                        onClick={() => handleDelete(news._id)}
-                                        className={styles.actionButton}
-                                    >
-                                        Excluir
-                                    </button>
+                                    <div className={styles.actionsCell}>
+                                        <Link
+                                            href={`/admin/editar/${news._id}`}
+                                            className={styles.actionButton}
+                                        >
+                                            Editar
+                                        </Link>
+                                        <button
+                                            onClick={() => handleDelete(news._id)}
+                                            className={`${styles.actionButton} ${styles.deleteButton}`}
+                                        >
+                                            Excluir
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

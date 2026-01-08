@@ -51,18 +51,35 @@
   border-bottom: 1px solid #e5e7eb;
 }
 
+.actionsCell {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .actionButton {
   background: transparent;
-  border: 1px solid #dc2626;
-  color: #dc2626;
-  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary-blue);
+  color: var(--primary-blue);
+  padding: 0.5rem 0.8rem;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.85rem;
   transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .actionButton:hover {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.deleteButton {
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
+.deleteButton:hover {
   background: #dc2626;
   color: white;
 }
