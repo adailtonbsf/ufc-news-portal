@@ -3,6 +3,7 @@
 import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '@/components/Shared/Auth.module.css';
+import ImageUpload from '@/components/ImageUpload';
 
 export default function EditNewsPage({ params }) {
     const router = useRouter();
@@ -111,11 +112,10 @@ export default function EditNewsPage({ params }) {
                 </div>
 
                 <div className={styles.inputGroup}>
-                    <label className={styles.label}>URL da Imagem (Capa)</label>
-                    <input
-                        className={styles.input}
-                        value={formData.imageUrl}
-                        onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                    <label className={styles.label}>Imagem de Capa</label>
+                    <ImageUpload
+                        currentImage={formData.imageUrl}
+                        onUploadComplete={(url) => setFormData({ ...formData, imageUrl: url })}
                     />
                 </div>
 
