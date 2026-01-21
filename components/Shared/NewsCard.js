@@ -6,7 +6,7 @@ const NewsCard = ({ news }) => {
         <Link href={`/noticias/${news._id}`} className={`glass-card ${styles.card}`}>
             <div className={styles.imageContainer}>
                 <span className={styles.category}>{news.category}</span>
-                <img src={news.imageUrl} alt={news.title} className={styles.image} />
+                <img src={news.imageUrl} alt={news.title} className={styles.image} referrerPolicy="no-referrer" />
             </div>
 
             <div className={styles.content}>
