@@ -1,27 +1,63 @@
-# Jornal da UFC (Portal de Notícias)
+# Jornal da UFC 📰
 
-Um portal digital dinâmico para conectar a comunidade acadêmica da UFC (alunos e professores) com notícias, eventos e oportunidades, focado em alta usabilidade e design responsivo.
+Um portal de notícias digital moderno e dinâmico, desenvolvido para conectar a comunidade acadêmica da Universidade Federal do Ceará (UFC) com eventos, pesquisas e oportunidades. Focado em **Experiência do Usuário (UX)** e um design visual impactante (**Glassmorphism**).
 
-## Stack Tecnológica
-- **Frontend**: Next.js (App Router)
-- **Estilização**: CSS Modules + Glassmorphism (Design System próprio)
-- **Banco de Dados**: MongoDB (Mongoose)
+## ✨ Funcionalidades
 
-## 🌐 Acesso Online (Demo)
-Acesse a versão mais recente em: **[ufc-news-portal.vercel.app](https://ufc-news-portal.vercel.app)**
+### 🏠 Portal Público
+- **Feed de Notícias**: Listagem cronológica com carregamento rápido.
+- **Notícia em Destaque**: Espaço nobre na Home para a matéria mais relevante da semana.
+- **Categorias**: Filtragem por Eventos, Pesquisa, Extensão, Editais e Geral.
+- **Interação**:
+  - Sistema de **curtidas persistentes** (sincronizadas com a conta do usuário).
+  - Botão de **compartilhamento** nativo.
+  - Barra lateral com **"Outras Notícias"** dinâmicas.
 
-## Como Rodar Localmente
+### ⚙️ Painel de Gestão (Admin)
+- **CMS Completo**: Criação, edição e exclusão de notícias.
+- **Moderação**: Sistema de status **Rascunho** (Draft) vs **Publicado**.
+- **Gestão de Destaques**: Seletor exclusivo para definir a notícia principal da capa.
+- **Upload de Imagens**: Integração automática com Google Drive para hospedagem de capas.
+- **Visibilidade por Papel**: Usuários comuns veem apenas suas próprias postagens; Admins veem tudo.
 
-1. Clone o repositório.
-2. Instale as dependências:
+## 🚀 Tecnologias Utilizadas
+
+- **Core**: Next.js 15 (App Router), React.
+- **Estilização**: CSS Modules, Design System próprio (Variáveis CSS), Glassmorphism.
+- **Banco de Dados**: MongoDB (via Mongoose).
+- **Integrações**: Google Drive API (Armazenamento de imagens).
+
+## 🛠️ Como Rodar Localmente
+
+1. **Clone o repositório**
+   ```bash
+   git clone https://github.com/adailtonbsf/ufc-news-portal.git
+   cd ufc-news-portal
+   ```
+
+2. **Instale as dependências**
    ```bash
    npm install
    ```
-3. Configure o `.env.local` com sua `MONGODB_URI`.
-4. Inicie o servidor:
+
+3. **Configure as Variáveis de Ambiente**
+   Renomeie o arquivo `.env.example` para `.env` e preencha as chaves necessárias:
+   - `MONGODB_URI`: Sua string de conexão do MongoDB Atlas.
+   - `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, etc.: Para upload de imagens (opcional, pode funcionar apenas com URLs externas se preferir).
+
+4. **Execute o Projeto**
    ```bash
    npm run dev
    ```
+   Acesse [http://localhost:3000](http://localhost:3000).
 
-Acesse [http://localhost:3000](http://localhost:3000).
+## 🔐 Acesso ao Admin
 
+Para acessar o painel administrativo na versão de demonstração:
+1. Clique em **Login** no cabeçalho.
+2. Utilize as credenciais de teste (ou crie uma conta):
+   - **Email**: `admin@ufc.br`
+   - **Senha**: `admin123`
+
+---
+Desenvolvido como parte do projeto da disciplina de Gerência de Projetos.

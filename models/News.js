@@ -24,6 +24,10 @@ const NewsSchema = new mongoose.Schema({
         type: String,
         default: 'Redação UFC',
     },
+    authorEmail: {
+        type: String,
+        default: '',
+    },
     imageUrl: {
         type: String,
         required: [true, 'Por favor, forneça a URL da imagem.'],

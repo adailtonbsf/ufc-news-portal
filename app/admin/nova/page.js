@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '@/components/Shared/Auth.module.css'; // Reusing efficient forms style
 import ImageUpload from '@/components/ImageUpload';
@@ -15,8 +15,17 @@ export default function NewNewsPage() {
         imageUrl: 'https://images.unsplash.com/photo-1594322436404-5a0526db4d13?auto=format&fit=crop&w=800&q=80',
         content: '',
         author: 'Admin',
+        authorEmail: '', // Store creator email
         status: 'draft' // Default status
     });
+
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        if (user) {
+            const { name, email } = JSON.parse(user);
+            setFormData(prev => ({ ...prev, author: name, authorEmail: email }));
+        }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

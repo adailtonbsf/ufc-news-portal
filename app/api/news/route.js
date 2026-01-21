@@ -13,7 +13,10 @@ export async function GET(request) {
             if (!news) return NextResponse.json({ error: 'Notícia não encontrada' }, { status: 404 });
             return NextResponse.json(news);
         }
-        const news = await News.find({}).sort({ publishDate: -1 });
+        const authorEmail = searchParams.get('authorEmail');
+        const query = authorEmail ? { authorEmail } : {};
+
+        const news = await News.find(query).sort({ publishDate: -1 });
         return NextResponse.json(news);
     } catch (error) {
         return NextResponse.json({ error: 'Falha ao buscar notícias' }, { status: 500 });

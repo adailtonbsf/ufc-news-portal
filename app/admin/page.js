@@ -21,7 +21,11 @@ export default function AdminDashboard() {
 
     const fetchNews = async () => {
         try {
-            const res = await fetch('/api/news');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            // If not admin, filter by my email
+            const query = user.role !== 'admin' ? `?authorEmail=${user.email}` : '';
+
+            const res = await fetch(`/api/news${query}`);
             const data = await res.json();
             setNewsList(data);
         } catch (error) {
