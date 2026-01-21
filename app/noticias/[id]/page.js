@@ -12,6 +12,8 @@ async function getNewsItem(id) {
     try {
         const news = await News.findById(id).lean();
         if (!news) return null;
+        // Moderate: Hide drafts
+        if (news.status && news.status !== 'published') return null;
         return {
             ...news,
             _id: news._id.toString(),
@@ -29,6 +31,22 @@ export default async function NewsDetails({ params }) {
     if (!news) {
         notFound();
     }
+
+    // Fetch recent news for sidebar
+    const recentNews = await News.find({
+        _id: { $ne: id },
+        $or: [{ status: 'published' }, { status: { $exists: false } }]
+    })
+        .sort({ publishDate: -1 })
+        .limit(3)
+        .lean();
+
+    // Serialize for props
+    const serializedRecent = recentNews.map(item => ({
+        ...item,
+        _id: item._id.toString(),
+        publishDate: item.publishDate.toISOString(),
+    }));
 
     return (
         <div className="container">
@@ -58,7 +76,7 @@ export default async function NewsDetails({ params }) {
                     </div>
                 </div>
 
-                <Sidebar />
+                <Sidebar newsList={serializedRecent} />
             </article>
         </div>
     );

@@ -34,13 +34,22 @@ const Header = () => {
 
         checkLoginStatus(); // Initial check on mount
 
+        // Listen for login updates
+        window.addEventListener('storage', checkLoginStatus);
+        // Custom event if we decide to use it, but storage covers the manual dispatch we saw
+        window.addEventListener('auth-update', checkLoginStatus);
+
         function handleClickOutside(event) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setShowDropdown(false);
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            window.removeEventListener('storage', checkLoginStatus);
+            window.removeEventListener('auth-update', checkLoginStatus);
+        };
     }, []); // Empty dependency array means this runs once on mount
 
     // Update effect to re-check user name if isLoggedIn changes (e.g., after login/logout)
@@ -61,6 +70,7 @@ const Header = () => {
         if (email === 'admin@ufc.br' && password === 'admin123') {
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('user', JSON.stringify({ name: 'Admin', email: 'admin@ufc.br', role: 'admin' }));
+            window.dispatchEvent(new Event('storage')); // Notify other components
             setIsLoggedIn(true);
             setError('');
             router.refresh();

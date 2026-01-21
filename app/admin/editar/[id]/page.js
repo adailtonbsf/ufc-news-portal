@@ -16,7 +16,8 @@ export default function EditNewsPage({ params }) {
         category: 'Geral',
         imageUrl: '',
         content: '',
-        author: ''
+        author: '',
+        status: 'draft'
     });
 
     useEffect(() => {
@@ -31,7 +32,8 @@ export default function EditNewsPage({ params }) {
                     category: data.category || 'Geral',
                     imageUrl: data.imageUrl || '',
                     content: data.content || '',
-                    author: data.author || ''
+                    author: data.author || '',
+                    status: data.status || 'draft'
                 });
             } catch (error) {
                 alert(error.message);
@@ -139,6 +141,18 @@ export default function EditNewsPage({ params }) {
                     />
                 </div>
 
+                <div className={styles.inputGroup}>
+                    <label className={styles.label}>Status</label>
+                    <select
+                        className={styles.input}
+                        value={formData.status}
+                        onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                    >
+                        <option value="draft">Rascunho</option>
+                        <option value="published">Publicado</option>
+                    </select>
+                </div>
+
                 <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
                     <button
                         type="button"
@@ -156,7 +170,7 @@ export default function EditNewsPage({ params }) {
                         {saving ? 'Guardando...' : 'Salvar Alterações'}
                     </button>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     );
 }

@@ -21,6 +21,12 @@ body {
   background: linear-gradient(135deg, #f6f8fd 0%, #eef2ff 100%);
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
 }
 
 a {
@@ -61,5 +67,6 @@ a {
 .text-gradient {
   background: linear-gradient(to right, var(--primary-blue), var(--solar-gold));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
