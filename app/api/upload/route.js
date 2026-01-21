@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { writeFile } from 'fs/promises';
-import path from 'path';
+import { uploadToDrive } from '@/lib/drive';
 
 export async function POST(request) {
     try {
@@ -15,22 +14,23 @@ export async function POST(request) {
         }
 
         const buffer = Buffer.from(await file.arrayBuffer());
-        const filename = Date.now() + '_' + file.name.replaceAll(' ', '_');
+        // Sanitize filename but keep extension
+        const filename = Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9.]/g, '_');
+        const mimeType = file.type || 'application/octet-stream';
 
-        // Ensure public/uploads exists (already done via command, but good to know path)
-        const uploadDir = path.join(process.cwd(), 'public/uploads');
-        const filePath = path.join(uploadDir, filename);
+        console.log(`Uploading ${filename} to Google Drive...`);
+        const result = await uploadToDrive(buffer, filename, mimeType);
 
-        await writeFile(filePath, buffer);
+        return NextResponse.json({
+            url: result.publicUrl,
+            success: true,
+            details: result
+        });
 
-        // Return the public URL
-        const publicUrl = `/uploads/${filename}`;
-
-        return NextResponse.json({ url: publicUrl, success: true });
     } catch (error) {
         console.error('Upload error:', error);
         return NextResponse.json(
-            { error: 'Error uploading file.' },
+            { error: 'Error uploading file to Drive.' },
             { status: 500 }
         );
     }

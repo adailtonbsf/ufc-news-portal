@@ -46,7 +46,7 @@ export default async function NewsDetails({ params }) {
                         <p className={styles.subtitle}>{news.subtitle}</p>
                     </div>
 
-                    <img src={news.imageUrl} alt={news.title} className={styles.coverImage} />
+                    <img src={news.imageUrl} alt={news.title} className={styles.coverImage} referrerPolicy="no-referrer" />
 
                     <InteractionBar newsId={news._id} initialLikes={news.likes} comments={12} />
 
