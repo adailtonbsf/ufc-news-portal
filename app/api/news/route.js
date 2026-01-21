@@ -10,13 +10,13 @@ export async function GET(request) {
     try {
         if (id) {
             const news = await News.findById(id);
-            if (!news) return NextResponse.json({ error: 'News not found' }, { status: 404 });
+            if (!news) return NextResponse.json({ error: 'Notícia não encontrada' }, { status: 404 });
             return NextResponse.json(news);
         }
         const news = await News.find({}).sort({ publishDate: -1 });
         return NextResponse.json(news);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to fetch news' }, { status: 500 });
+        return NextResponse.json({ error: 'Falha ao buscar notícias' }, { status: 500 });
     }
 }
 
@@ -27,7 +27,7 @@ export async function POST(request) {
 
         // Basic validation
         if (!body.title || !body.content) {
-            return NextResponse.json({ error: 'Title and content required' }, { status: 400 });
+            return NextResponse.json({ error: 'Título e conteúdo são obrigatórios' }, { status: 400 });
         }
 
         const news = await News.create({
@@ -38,7 +38,7 @@ export async function POST(request) {
 
         return NextResponse.json(news, { status: 201 });
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to create news' }, { status: 500 });
+        return NextResponse.json({ error: 'Falha ao criar notícia' }, { status: 500 });
     }
 }
 
@@ -48,14 +48,14 @@ export async function DELETE(request) {
     const id = searchParams.get('id');
 
     if (!id) {
-        return NextResponse.json({ error: 'ID required' }, { status: 400 });
+        return NextResponse.json({ error: 'ID obrigatório' }, { status: 400 });
     }
 
     try {
         await News.findByIdAndDelete(id);
         return NextResponse.json({ message: 'News deleted' });
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to delete news' }, { status: 500 });
+        return NextResponse.json({ error: 'Falha ao excluir notícia' }, { status: 500 });
     }
 }
 
@@ -66,17 +66,22 @@ export async function PUT(request) {
         const { id, ...updateData } = body;
 
         if (!id) {
-            return NextResponse.json({ error: 'ID required' }, { status: 400 });
+            return NextResponse.json({ error: 'ID obrigatório' }, { status: 400 });
+        }
+
+        // If setting as featured, unset others first (single featured item policy)
+        if (updateData.featured === true) {
+            await News.updateMany({ _id: { $ne: id } }, { featured: false });
         }
 
         const news = await News.findByIdAndUpdate(id, updateData, { new: true });
 
         if (!news) {
-            return NextResponse.json({ error: 'News not found' }, { status: 404 });
+            return NextResponse.json({ error: 'Notícia não encontrada' }, { status: 404 });
         }
 
         return NextResponse.json(news);
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to update news' }, { status: 500 });
+        return NextResponse.json({ error: 'Falha ao atualizar notícia' }, { status: 500 });
     }
 }

@@ -14,7 +14,8 @@ export default function NewNewsPage() {
         category: 'Geral',
         imageUrl: 'https://images.unsplash.com/photo-1594322436404-5a0526db4d13?auto=format&fit=crop&w=800&q=80',
         content: '',
-        author: 'Admin'
+        author: 'Admin',
+        status: 'draft' // Default status
     });
 
     const handleSubmit = async (e) => {
@@ -112,6 +113,18 @@ export default function NewNewsPage() {
                     />
                 </div>
 
+                <div className={styles.inputGroup}>
+                    <label className={styles.label}>Status</label>
+                    <select
+                        className={styles.input}
+                        value={formData.status}
+                        onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                    >
+                        <option value="draft">Rascunho</option>
+                        <option value="published">Publicado</option>
+                    </select>
+                </div>
+
                 <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
                     <button
                         type="button"
@@ -126,11 +139,11 @@ export default function NewNewsPage() {
                         className={styles.button}
                         disabled={loading}
                     >
-                        {loading ? 'Publicando...' : 'Publicar Notícia'}
+                        {loading ? 'Salvando...' : (formData.status === 'published' ? 'Publicar Agora' : 'Salvar Rascunho')}
                     </button>
                 </div>
 
-            </form>
-        </div>
+            </form >
+        </div >
     );
 }

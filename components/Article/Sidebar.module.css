@@ -12,6 +12,13 @@
   border-bottom: 2px solid var(--light-gray);
 }
 
+/* Main list container */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .item {
   display: flex;
   gap: 1rem;

@@ -3,21 +3,21 @@ import mongoose from 'mongoose';
 const NewsSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: [true, 'Please provide a title for this news.'],
-        maxlength: [100, 'Title cannot be more than 100 characters'],
+        required: [true, 'Por favor, forneça um título para a notícia.'],
+        maxlength: [100, 'O título não pode ter mais de 100 caracteres'],
     },
     subtitle: {
         type: String,
-        required: [true, 'Please provide a subtitle.'],
-        maxlength: [200, 'Subtitle cannot be more than 200 characters'],
+        required: [true, 'Por favor, forneça um subtítulo.'],
+        maxlength: [200, 'O subtítulo não pode ter mais de 200 caracteres'],
     },
     content: {
         type: String,
-        required: [true, 'Please provide the content.'],
+        required: [true, 'Por favor, forneça o conteúdo.'],
     },
     category: {
         type: String,
-        required: [true, 'Please specify the category.'],
+        required: [true, 'Por favor, especifique a categoria.'],
         enum: ['Eventos', 'Pesquisa', 'Extensão', 'Editais', 'Oportunidades', 'Geral'],
     },
     author: {
@@ -26,15 +26,32 @@ const NewsSchema = new mongoose.Schema({
     },
     imageUrl: {
         type: String,
-        required: [true, 'Please provide an image URL.'],
+        required: [true, 'Por favor, forneça a URL da imagem.'],
     },
     publishDate: {
         type: Date,
         default: Date.now,
     },
+    item_views: {
+        type: Number,
+        default: 0,
+    },
+    status: {
+        type: String,
+        enum: ['draft', 'published'],
+        default: 'draft', // Default to draft for moderation
+    },
+    featured: {
+        type: Boolean,
+        default: false,
+    },
     likes: {
         type: Number,
         default: 0,
+    },
+    likedBy: {
+        type: [String], // Store user distinct identifiers (e.g. email)
+        default: [],
     },
 });
 

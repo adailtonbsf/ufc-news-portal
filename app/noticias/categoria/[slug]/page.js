@@ -11,7 +11,8 @@ export default async function CategoryPage(props) {
     // Case-insensitive regex for category matching (Decode params first)
     const categorySlug = decodeURIComponent(params.slug);
     const newsList = await News.find({
-        category: { $regex: new RegExp(categorySlug, "i") }
+        category: { $regex: new RegExp(categorySlug, "i") },
+        $or: [{ status: 'published' }, { status: { $exists: false } }]
     }).sort({ publishDate: -1 });
 
     return (

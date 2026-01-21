@@ -1,25 +1,28 @@
 import Link from 'next/link';
 import styles from './Hero.module.css';
 
-const Hero = () => {
+const Hero = ({ news }) => {
+  if (!news) return null; // Or return a default placeholder if desired
+
   return (
     <section className={styles.hero}>
-      {/* Background Image - Placeholder from Unsplash */}
+      {/* Background Image */}
       <img
-        src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=80"
-        alt="Campus da Universidade"
+        src={news.imageUrl}
+        alt={news.title}
         className={styles.image}
+        referrerPolicy="no-referrer"
       />
 
       <div className={styles.overlay} />
 
       <div className={styles.heroContent}>
         <span className={styles.badge}>Destaque da Semana</span>
-        <h1 className={styles.title}>Universidade Inaugura Novo Centro de Inovação</h1>
+        <h1 className={styles.title}>{news.title}</h1>
         <p className={styles.subtitle}>
-          Espaço colaborativo visa integrar alunos, professores e empresas para o desenvolvimento de soluções tecnológicas.
+          {news.subtitle}
         </p>
-        <Link href="/noticias/destaque" className={styles.ctaButton}>
+        <Link href={`/noticias/${news._id}`} className={styles.ctaButton}>
           Leia a Matéria Completa
         </Link>
       </div>
