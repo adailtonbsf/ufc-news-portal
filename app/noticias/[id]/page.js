@@ -1,6 +1,8 @@
 import dbConnect from '@/lib/mongodb';
 import News from '@/models/News';
+import Comment from '@/models/Comment';
 import Sidebar from '@/components/Article/Sidebar';
+import Comments from '@/components/Article/Comments';
 import InteractionBar from '@/components/Shared/InteractionBar';
 import styles from './styles.module.css';
 import { notFound } from 'next/navigation';
@@ -41,6 +43,9 @@ export default async function NewsDetails({ params }) {
         .limit(3)
         .lean();
 
+    // Fetch comment count
+    const commentCount = await Comment.countDocuments({ newsId: id });
+
     // Serialize for props
     const serializedRecent = recentNews.map(item => ({
         ...item,
@@ -66,7 +71,7 @@ export default async function NewsDetails({ params }) {
 
                     <img src={news.imageUrl} alt={news.title} className={styles.coverImage} referrerPolicy="no-referrer" />
 
-                    <InteractionBar newsId={news._id} initialLikes={news.likes} comments={12} />
+                    <InteractionBar newsId={news._id} initialLikes={news.likes} comments={commentCount} />
 
                     <div className={styles.body}>
                         {/* Simple paragraph splitting for Sprint 1 */}
@@ -74,6 +79,8 @@ export default async function NewsDetails({ params }) {
                             <p key={idx}>{paragraph}</p>
                         ))}
                     </div>
+
+                    <Comments newsId={news._id} />
                 </div>
 
                 <Sidebar newsList={serializedRecent} />

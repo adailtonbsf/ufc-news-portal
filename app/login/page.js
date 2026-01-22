@@ -25,23 +25,45 @@ export default function LoginPage() {
         setError('');
 
         // Simulating the same logic from Header.js for consistency in prototype
+        // Check for admin
         if (email === 'admin@ufc.br' && password === 'admin123') {
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('user', JSON.stringify({
+            loginUser({
                 name: 'Admin',
                 email: 'admin@ufc.br',
                 role: 'admin'
-            }));
-
-            // Dispatch event to notify Header/other components
-            window.dispatchEvent(new Event('storage'));
-
-            router.push('/admin');
-            router.refresh();
-        } else {
-            setError('Credenciais inválidas. Use admin@ufc.br / admin123');
-            setLoading(false);
+            });
+            return;
         }
+
+        // Check for locally registered user (Prototype simulation)
+        const localUser = localStorage.getItem('user');
+        if (localUser) {
+            const parsedUser = JSON.parse(localUser);
+            if (parsedUser.email === email && parsedUser.password === password) {
+                loginUser(parsedUser);
+                return;
+            }
+        }
+
+        setError('Credenciais inválidas. Use admin@ufc.br / admin123 ou seu cadastro.');
+        setLoading(false);
+    };
+
+    const loginUser = (userData) => {
+        localStorage.setItem('isLoggedIn', 'true');
+        // Ensure we don't overwrite the 'user' key with incomplete data if it's the admin, 
+        // but for local user it's already there. 
+        // For admin we strictly set it.
+        if (userData.role === 'admin') {
+            localStorage.setItem('user', JSON.stringify(userData));
+        }
+
+        // Dispatch event to notify Header/other components
+        window.dispatchEvent(new Event('storage'));
+
+        router.push('/admin');
+        router.refresh();
+
     };
 
     return (
