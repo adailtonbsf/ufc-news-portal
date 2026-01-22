@@ -68,22 +68,43 @@ const Header = () => {
 
         // Simple static check for prototype
         if (email === 'admin@ufc.br' && password === 'admin123') {
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('user', JSON.stringify({ name: 'Admin', email: 'admin@ufc.br', role: 'admin' }));
-            window.dispatchEvent(new Event('storage')); // Notify other components
-            setIsLoggedIn(true);
-            setError('');
-            router.refresh();
-            setShowDropdown(false);
-            router.push('/admin'); // Redirect admins to dashboard
-        } else {
-            setError('Credenciais inválidas. Tente admin@ufc.br / admin123');
+            loginUser({ name: 'Admin', email: 'admin@ufc.br', role: 'admin' });
+            return;
         }
+
+        // Check local user
+        const localUser = localStorage.getItem('user');
+        if (localUser) {
+            const parsed = JSON.parse(localUser);
+            if (parsed.email === email && parsed.password === password) {
+                loginUser(parsed);
+                return;
+            }
+        }
+
+        setError('Credenciais inválidas.');
+    };
+
+    const loginUser = (userData) => {
+        localStorage.setItem('isLoggedIn', 'true');
+        if (userData.role === 'admin') {
+            localStorage.setItem('user', JSON.stringify(userData));
+        }
+        window.dispatchEvent(new Event('storage'));
+        setIsLoggedIn(true);
+        setError('');
+        router.refresh();
+        setShowDropdown(false);
+        if (userData.role === 'admin') {
+            router.push('/admin');
+        }
+
     };
 
     const handleLogout = () => {
         localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('user');
+        // Do not remove 'user' so we can log back in with the simulated account
+        // localStorage.removeItem('user'); 
         setIsLoggedIn(false);
         setShowDropdown(false);
         router.push('/');
